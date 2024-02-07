@@ -33,6 +33,10 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
   },
+  profilePic: {
+    type: String, // Assuming the profile picture will be stored as a URL
+    required: true,
+  },
 });
 
 const Student = new mongoose.model("Student", StudentSchema);

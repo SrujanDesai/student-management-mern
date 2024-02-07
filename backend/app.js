@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 mongoose
   .connect(
     "mongodb+srv://srujan:mongodb2512@cluster0.h4itok2.mongodb.net/?retryWrites=true&w=majority"
@@ -13,9 +16,11 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
-  res.send("Hello this is a student management system using mern stack");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello this is a student management system using MERN stack");
+// });
+
+app.use("/", require("./router/main"));
 
 app.listen(3000, () => {
   console.log("server running at 3000");
