@@ -31,7 +31,7 @@ const getStudentById = async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
-    res.json({ success: true, data: student });
+    res.json({ data: student });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -74,8 +74,8 @@ const deleteStudentById = async (req, res) => {
 // Search for student records
 const searchStudents = async (req, res) => {
   try {
-    const search = req.params;
-    const students = await Student.find(search);
+    const query = req.query;
+    const students = await Student.find(query);
     res.json({ data: students });
   } catch (error) {
     res.status(500).json({ message: error.message });

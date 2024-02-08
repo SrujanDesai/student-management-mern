@@ -1,26 +1,33 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 // login
 const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Check if user exists
+  try {
+    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Validate password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid email or password" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    res.status(200).json({
-      message: "User logged in successfully",
-      data: user,
-    });
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" } // Token expires in 1 hour
+    );
+
+    res.status(200).json({ token, message: "User logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -42,11 +49,10 @@ const signup = async (req, res) => {
     // Create a new user
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword, role });
-    const user = await newUser.save();
+    await newUser.save();
 
     res.status(201).json({
       message: "User registered successfully",
-      data: user,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

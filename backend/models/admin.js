@@ -21,6 +21,9 @@ const AdminSchema = new Schema({
     type: String,
     required: true,
   },
+  authToken: {
+    type: String,
+  },
 });
 
 const Admin = mongoose.model("Admin", AdminSchema);

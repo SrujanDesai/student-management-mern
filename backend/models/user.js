@@ -24,7 +24,10 @@ const UserSchema = new Schema({
   role: {
     type: String,
     enum: ["Admin", "Student"],
-    default: "Admin",
+    required: true,
+  },
+  authToken: {
+    type: String,
   },
 });
 

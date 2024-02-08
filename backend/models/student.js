@@ -21,10 +21,6 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
   },
-  parent: {
-    type: String,
-    required: true,
-  },
   class: {
     type: String,
     required: true,
@@ -33,9 +29,12 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
   },
-  profilePic: {
+  profilepic: {
     type: String, // Assuming the profile picture will be stored as a URL
-    required: true,
+    // required: true,
+  },
+  authToken: {
+    type: String,
   },
 });
 
