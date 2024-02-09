@@ -33,8 +33,10 @@ const StudentSchema = new Schema({
     type: String, // Assuming the profile picture will be stored as a URL
     // required: true,
   },
-  authToken: {
+  role: {
     type: String,
+    required: true,
+    default: "student",
   },
 });
 

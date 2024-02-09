@@ -71,22 +71,10 @@ const deleteParentById = async (req, res) => {
   }
 };
 
-// Search for parent records
-const searchParents = async (req, res) => {
-  try {
-    const query = req.query;
-    const parents = await Parent.find(query);
-    res.json({ data: parents });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 module.exports = {
   createParent,
   getAllParents,
   getParentById,
   updateParentById,
   deleteParentById,
-  searchParents,
 };

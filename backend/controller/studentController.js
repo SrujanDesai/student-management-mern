@@ -1,3 +1,6 @@
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Student = require("../models/student");
 
 // Create a new student record
@@ -71,12 +74,31 @@ const deleteStudentById = async (req, res) => {
   }
 };
 
-// Search for student records
-const searchStudents = async (req, res) => {
+// login
+const studentLogin = async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const query = req.query;
-    const students = await Student.find(query);
-    res.json({ data: students });
+    // Find student by email
+    const student = await Student.findOne({ email });
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // Validate password
+    // const isMatch = await bcrypt.compare(password, student.password);
+    if (password !== student.password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { studentId: student._id, role: student.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" } // Token expires in 1 hour
+    );
+
+    res.status(200).json({ token, message: "Student logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -88,5 +110,5 @@ module.exports = {
   getStudentById,
   updateStudentById,
   deleteStudentById,
-  searchStudents,
+  studentLogin,
 };

@@ -11,13 +11,12 @@ const ParentSchema = new Schema({
     required: true,
     unique: true,
   },
-  relation: {
+  student: {
     type: String,
     required: true,
   },
-  student: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Student",
+  relation: {
+    type: String,
     required: true,
   },
 });

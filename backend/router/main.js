@@ -1,90 +1,58 @@
 const express = require("express");
-const { verifyToken, checkRole } = require("../middleware/auth");
+const verifyAdminToken = require("../middleware/adminAuth");
 const verifyStudentToken = require("../middleware/studentAuth");
 const router = express.Router();
 
-// router.use(verifyToken);
-
 const parentController = require("../controller/parentController");
 const studentController = require("../controller/studentController");
-const userController = require("../controller/userController");
+const adminController = require("../controller/adminController");
 
-router.post("/signup", userController.signup);
-router.post("/login", userController.login);
+// Admin signup and login
+router.post("/adminsignup", adminController.signup);
+router.post("/adminlogin", adminController.login);
 
-router.post(
-  "/students/add",
-  verifyToken,
-  checkRole("Admin"),
-  studentController.createStudent
-);
-router.get(
-  "/students",
-  verifyToken,
-  checkRole("Admin"),
-  studentController.getAllStudents
-);
-router.get(
-  "/students/:id",
-  verifyToken,
-  checkRole("Admin"),
-  studentController.getStudentById
-);
+// For admin to manage both student and parents
+router.post("/students/add", verifyAdminToken, studentController.createStudent);
+router.get("/students", verifyAdminToken, studentController.getAllStudents);
+router.get("/students/:id", verifyAdminToken, studentController.getStudentById);
 router.put(
   "/students/edit/:id",
-  verifyToken,
-  checkRole("Admin"),
+  verifyAdminToken,
   studentController.updateStudentById
 );
 router.delete(
   "/students/delete/:id",
-  verifyToken,
-  checkRole("Admin"),
+  verifyAdminToken,
   studentController.deleteStudentById
 );
-// router.get("/students/search", studentController.searchStudents);
 
-router.post(
-  "/parents/add",
-  verifyToken,
-  checkRole("Admin"),
-  parentController.createParent
-);
-router.get(
-  "/parents",
-  verifyToken,
-  checkRole("Admin"),
-  parentController.getAllParents
-);
-router.get(
-  "/parents/:id",
-  verifyToken,
-  checkRole("Admin"),
-  parentController.getParentById
-);
+router.post("/parents/add", verifyAdminToken, parentController.createParent);
+router.get("/parents", verifyAdminToken, parentController.getAllParents);
+router.get("/parents/:id", verifyAdminToken, parentController.getParentById);
 router.put(
   "/parents/edit/:id",
-  verifyToken,
-  checkRole("Admin"),
+  verifyAdminToken,
   parentController.updateParentById
 );
 router.delete(
   "/parents/delete/:id",
-  verifyToken,
-  checkRole("Admin"),
+  verifyAdminToken,
   parentController.deleteParentById
 );
-// router.get("/parents/search", parentController.searchParents);
 
+// For student to login and manage only their own profile
+router.post("/studentlogin", studentController.studentLogin);
 router.get(
-  "/profile/:id",
+  "/studentlogin/profile/:id",
   verifyStudentToken,
   studentController.getStudentById
 );
 router.put(
-  "/profile/edit/:id",
+  "/studentlogin/profile/edit/:id",
   verifyStudentToken,
   studentController.updateStudentById
 );
+// router.get( "/profile/:id", verifyStudentToken, studentController.getStudentById );
+// router.put( "/profile/edit/:id", verifyStudentToken, studentController.updateStudentById );
 
 module.exports = router;

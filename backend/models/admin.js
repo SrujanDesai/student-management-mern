@@ -21,8 +21,10 @@ const AdminSchema = new Schema({
     type: String,
     required: true,
   },
-  authToken: {
+  role: {
     type: String,
+    required: true,
+    default: "admin",
   },
 });
 
