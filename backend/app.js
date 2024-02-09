@@ -16,10 +16,6 @@ mongoose
     console.log(err);
   });
 
-// app.get("/", (req, res) => {
-//   res.send("Hello this is a student management system using MERN stack");
-// });
-
 app.use("/", require("./router/main"));
 
 app.listen(3000, () => {
