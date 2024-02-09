@@ -3,7 +3,6 @@ const Admin = require("../models/admin");
 
 const verifyAdminToken = async (req, res, next) => {
   // Get the token from the request header
-  // const token = req.header("Authorization");
   const token = req.headers.authorization.split(" ")[1];
 
   if (!token) {
@@ -42,18 +41,5 @@ const verifyAdminToken = async (req, res, next) => {
     res.status(401).json({ message: "Invalid token" });
   }
 };
-
-// const checkRole = (requiredRole) => {
-//   return (req, res, next) => {
-//     const userRole = req.user.role;
-//     console.log(userRole);
-
-//     if (userRole === requiredRole) {
-//       next();
-//     } else {
-//       res.status(403).json({ message: "Forbidden" });
-//     }
-//   };
-// };
 
 module.exports = verifyAdminToken;

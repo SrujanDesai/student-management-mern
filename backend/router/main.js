@@ -52,7 +52,5 @@ router.put(
   verifyStudentToken,
   studentController.updateStudentById
 );
-// router.get( "/profile/:id", verifyStudentToken, studentController.getStudentById );
-// router.put( "/profile/edit/:id", verifyStudentToken, studentController.updateStudentById );
 
 module.exports = router;
