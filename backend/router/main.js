@@ -8,47 +8,47 @@ const studentController = require("../controller/studentController");
 const adminController = require("../controller/adminController");
 
 // Admin signup and login
-router.post("/adminsignup", adminController.signup);
-router.post("/adminlogin", adminController.login);
+router.post("/admin/signup", adminController.signup);
+router.post("/admin/login", adminController.login);
 
 // For admin to manage both student and parents
-router.post("/students/add", verifyAdminToken, studentController.createStudent);
-router.get("/students", verifyAdminToken, studentController.getAllStudents);
-router.get("/students/:id", verifyAdminToken, studentController.getStudentById);
+router.post("/student/add", verifyAdminToken, studentController.createStudent);
+router.get("/student", verifyAdminToken, studentController.getAllStudents);
+router.get("/student/:id", verifyAdminToken, studentController.getStudentById);
 router.put(
-  "/students/edit/:id",
+  "/student/edit/:id",
   verifyAdminToken,
   studentController.updateStudentById
 );
 router.delete(
-  "/students/delete/:id",
+  "/student/delete/:id",
   verifyAdminToken,
   studentController.deleteStudentById
 );
 
-router.post("/parents/add", verifyAdminToken, parentController.createParent);
-router.get("/parents", verifyAdminToken, parentController.getAllParents);
-router.get("/parents/:id", verifyAdminToken, parentController.getParentById);
+router.post("/parent/add", verifyAdminToken, parentController.createParent);
+router.get("/parent", verifyAdminToken, parentController.getAllParents);
+router.get("/parent/:id", verifyAdminToken, parentController.getParentById);
 router.put(
-  "/parents/edit/:id",
+  "/parent/edit/:id",
   verifyAdminToken,
   parentController.updateParentById
 );
 router.delete(
-  "/parents/delete/:id",
+  "/parent/delete/:id",
   verifyAdminToken,
   parentController.deleteParentById
 );
 
 // For student to login and manage only their own profile
-router.post("/studentlogin", studentController.studentLogin);
+router.post("/student/login", studentController.studentLogin);
 router.get(
-  "/studentlogin/profile/:id",
+  "/student/login/:id",
   verifyStudentToken,
   studentController.getStudentById
 );
 router.put(
-  "/studentlogin/profile/edit/:id",
+  "/student/login/edit/:id",
   verifyStudentToken,
   studentController.updateStudentById
 );
