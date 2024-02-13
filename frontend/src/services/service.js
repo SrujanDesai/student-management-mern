@@ -5,6 +5,7 @@ const axiosInstance = axios.create({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
+
 // Admin service functions
 export const adminSignup = async (adminData) => {
   try {
