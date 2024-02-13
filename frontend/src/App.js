@@ -1,10 +1,11 @@
 import "./App.css";
-import RegistrationForm from "./components/RegistrationForm";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   return (
     <>
-      <RegistrationForm />
+      {/* <h1>hello</h1> */}
+      <RegisterForm />
     </>
   );
 }
