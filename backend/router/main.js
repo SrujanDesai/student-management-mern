@@ -7,9 +7,6 @@ const parentController = require("../controller/parentController");
 const studentController = require("../controller/studentController");
 const adminController = require("../controller/adminController");
 
-// router.get("/", (req, res) => {
-//   res.sendFile("frontend", "/src/components/RegistrationForm.jsx");
-// });
 // Admin signup and login
 router.post("/admin/signup", adminController.signup);
 router.post("/admin/login", adminController.login);
