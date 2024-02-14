@@ -12,7 +12,7 @@ const Choose = () => {
             school, class, and more. Also can manage details of each student's
             parent and also seamlessly student can manage their own profile.
           </p>
-        </div>
+        </div>  
         {/* Student Card */}
         <div className="flex flex-col content-center items-center bg-green-500 rounded-lg shadow-md p-6 hover:bg-green-600 transition duration-300 cursor-pointer">
           <h2 className="text-2xl font-bold text-white mb-2">Student</h2>
