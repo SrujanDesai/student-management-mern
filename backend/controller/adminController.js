@@ -50,7 +50,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { adminId: admin._id, role: admin.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
+      { expiresIn: "2h" } // Token expires in 2 hour
     );
 
     res.status(200).json({ token, message: "Admin logged in successfully" });

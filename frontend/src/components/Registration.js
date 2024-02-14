@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { adminSignup } from "../services/service";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const RegisterForm = () => {
+const Registration = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,13 +24,37 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+    if (!formData.name) {
+      toast.error("Name is required");
       return;
     }
+
+    if (!formData.email) {
+      toast.error("Email is required");
+      return;
+    }
+
+    if (!formData.password) {
+      toast.error("Passwords is required");
+      return;
+    }
+
+    if (!formData.confirmPassword) {
+      toast.error("Please confirm your password");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     try {
       const response = await adminSignup(formData);
+      toast.success("Registration successful");
+      console.log(formData);
       console.log("Registration successful:", response);
+      navigate("/adminlogin");
     } catch (error) {
       console.error("Registration failed:", error.message);
     }
@@ -124,12 +153,12 @@ const RegisterForm = () => {
                 </button>
                 <p className="text-sm font-light text-black">
                   Already have an account?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to={"/adminlogin"}
                     className="font-medium text-primary-600 hover:underline"
                   >
                     Login here
-                  </a>
+                  </Link>
                 </p>
               </form>
             </div>
@@ -140,4 +169,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default Registration;

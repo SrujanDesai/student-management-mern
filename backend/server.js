@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 mongoose
   .connect(
@@ -18,6 +20,6 @@ mongoose
 
 app.use("/", require("./router/main"));
 
-app.listen(3000, () => {
-  console.log("server running at 3000");
+app.listen(8080, () => {
+  console.log("server running at 8080");
 });

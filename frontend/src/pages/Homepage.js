@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Students from "../assets/students.svg";
+import Home from "../assets/home.svg";
 
 const Homepage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col md:flex-row-reverse items-center md:items-start w-full max-w-screen-lg">
         <div className="md:w-1/2 md:order-2 mb-8 md:mb-0">
-          <img src={Students} alt="students" className="w-full" />
+          <img src={Home} alt="home" className="w-full" />
         </div>
         <div className="md:w-1/2 md:order-1">
           <div className="bg-white p-8 rounded-lg shadow-md">
@@ -15,9 +15,10 @@ const Homepage = () => {
               Welcome to <br /> Student Management <br /> System
             </h1>
             <p className="text-gray-700 text-center mb-6">
-              Streamline student management, Manage students data like student's
-              school, class, and more. Also can manage details of each student's
-              parent and also seamlessly student can manage their own profile.
+              Our Student Management System is a comprehensive platform designed
+              to streamline the administration of student data. It provides a
+              user-friendly interface that allows for efficient and effective
+              management of student data.
             </p>
             <div className="flex flex-col gap-4 ">
               <Link to="/choose" className="text-center">
@@ -27,7 +28,7 @@ const Homepage = () => {
               </Link>
               <p className="text-center">
                 Don't have an account?{" "}
-                <Link to="/Adminregister" className="text-blue-600">
+                <Link to="/adminregister" className="text-blue-600">
                   Sign up
                 </Link>
               </p>
