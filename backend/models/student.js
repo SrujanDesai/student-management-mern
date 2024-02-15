@@ -30,8 +30,7 @@ const StudentSchema = new Schema({
     required: true,
   },
   profilepic: {
-    type: String, // Assuming the profile picture will be stored as a URL
-    // required: true,
+    type: String
   },
   role: {
     type: String,
@@ -40,5 +39,5 @@ const StudentSchema = new Schema({
   },
 });
 
-const Student = new mongoose.model("Student", StudentSchema);
+const   Student = new mongoose.model("Student", StudentSchema);
 module.exports = Student;

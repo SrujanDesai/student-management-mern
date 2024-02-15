@@ -32,6 +32,9 @@ const verifyStudentToken = async (req, res, next) => {
 
     // Compare requested student ID with ID from token
     if (decoded.studentId !== requestedStudentId) {
+      console.log(
+        `Requested student ID: ${requestedStudentId}, Decoded student ID: ${decoded.studentId}`
+      );
       return res
         .status(403)
         .json({ message: "You are not authorized to view this profile" });

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { studentLogin } from "../services/service";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const StudentLogin = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,8 +24,14 @@ const StudentLogin = () => {
     try {
       const response = await studentLogin(formData);
       toast.success("Login successful");
+
       console.log(formData);
       console.log("Login successful:", response);
+
+      // Save token in local storage
+      localStorage.setItem("token", response.token);
+
+      navigate("/studentprofile");
     } catch (error) {
       toast.error(`Login failed: ${error.message}`);
     }
@@ -54,7 +63,7 @@ const StudentLogin = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="name@company.com"
+                    placeholder="name@zignuts.com"
                     required=""
                   />
                 </div>

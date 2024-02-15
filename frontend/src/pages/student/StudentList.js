@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getAllStudents,
   deleteStudentById,
   updateStudentById,
-} from "../services/service";
-import Default from "../assets/default.jpeg";
+} from "../../services/service";
+import Default from "../../assets/default.jpeg";
+import toast from "react-hot-toast";
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [updateData, setUpdateData] = useState({
+    _id: "",
     name: "",
     email: "",
     class: "",
@@ -18,9 +22,7 @@ const StudentList = () => {
   });
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-  useEffect(() => {
-    fetchStudents();
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const results = students.filter((student) =>
@@ -33,7 +35,6 @@ const StudentList = () => {
     try {
       const data = await getAllStudents();
       setStudents(data.data);
-      console.log(data);
     } catch (error) {
       console.error("Error fetching students:", error.message);
     }
@@ -43,6 +44,7 @@ const StudentList = () => {
     try {
       await deleteStudentById(id);
       setStudents(students.filter((student) => student._id !== id));
+      toast.success("Student deleted successfully!");
     } catch (error) {
       console.error("Error deleting student:", error.message);
     }
@@ -53,6 +55,7 @@ const StudentList = () => {
       await updateStudentById(updateData._id, updateData);
       fetchStudents(); // Refresh student list after update
       setShowUpdateForm(false); // Hide the update form after successful update
+      toast.success("Student updated successfully!");
     } catch (error) {
       console.error("Error updating student:", error.message);
     }
@@ -68,25 +71,53 @@ const StudentList = () => {
     setShowUpdateForm(true);
   };
 
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-bold my-8">Student List</h1>
-      <div className="flex mb-4">
+      <h1 className="text-3xl font-bold my-8 ">Student List</h1>
+      <div className="flex flex-col md:flex-row items-center justify-between mb-4">
         <input
           type="text"
-          className="border border-gray-400 p-2 mr-2"
+          className="border border-gray-400 p-2 mb-2 md:mb-0 md:mr-2 w-full md:w-auto"
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-auto">
-          Add Student
-        </button>
+        <div className="flex flex-row items-center">
+          <Link
+            to={"/addstudent"}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2 mx-2 md:mb-0 md:mr-2"
+          >
+            Add Student
+          </Link>
+          <Link
+            to={"/parentlist"}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mx-2 md:mb-0 md:mr-2"
+          >
+            View Parent
+          </Link>
+          <button
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold px-4 py-2 rounded mb-2 mx-2 md:mb-0 md:mr-2"
+            onClick={() => navigate("/adminlogin")}
+          >
+            Back
+          </button>
+        </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {searchResults.map((student) => (
-          <div key={student._id} className="bg-white rounded-lg shadow-md p-6">
+        {searchResults.map((student, index) => (
+          <div
+            key={student._id}
+            className={`rounded-lg shadow-md p-6 transition duration-300 ease-in-out transform hover:scale-105 ${
+              index % 2 === 0
+                ? "bg-blue-100 hover:bg-blue-300"
+                : "bg-indigo-100 hover:bg-indigo-300"
+            }`}
+          >
             <img
               src={Default}
               alt="Profile Pic"
@@ -96,16 +127,15 @@ const StudentList = () => {
             <p className="text-gray-600 mb-2">Email: {student.email}</p>
             <p className="text-gray-600 mb-2">Class: {student.class}</p>
             <p className="text-gray-600 mb-4">School: {student.school}</p>
-            <div className="flex justify-center">
+            <div className="flex justify-center space-x-4">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded mr-2"
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded"
                 onClick={() => handleDeleteStudent(student._id)}
               >
                 Delete
               </button>
-              {/* Add Update button */}
               <button
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded mr-2"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
                 onClick={() => openUpdateForm(student)}
               >
                 Update
@@ -118,7 +148,7 @@ const StudentList = () => {
       {/* Update Form */}
       {showUpdateForm && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Update Student</h2>
             <input
               type="text"
@@ -152,9 +182,9 @@ const StudentList = () => {
               placeholder="School"
               className="border border-gray-400 p-2 mb-2 w-full"
             />
-            <div className="flex justify-center">
+            <div className="flex justify-center space-x-4">
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mr-2"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
                 onClick={handleUpdateStudent}
               >
                 Save

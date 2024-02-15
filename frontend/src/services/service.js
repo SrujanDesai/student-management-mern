@@ -1,8 +1,9 @@
 import axios from "axios";
 const baseURL = "http://localhost:8080";
 const axiosInstance = axios.create({
+
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${localStorage.getItem("token",)}`,
   },
 });
 
@@ -140,9 +141,9 @@ export const deleteParentById = async (parentId) => {
 };
 
 // student login and manage own profile functions
-export const studentLogin = async () => {
+export const studentLogin = async (credentials) => {
   try {
-    const response = await axiosInstance.post(`${baseURL}/student/login`);
+    const response = await axiosInstance.post(`${baseURL}/student/login`, credentials);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

@@ -43,9 +43,21 @@ const getStudentById = async (req, res) => {
 // Update a student record by ID
 const updateStudentById = async (req, res) => {
   try {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, // to return modified document rather than the original document.
-    });
+    const studentId = req.params.id;
+    let profilepic = ""; // Initialize profile picture variable
+
+    // Check if file was uploaded
+    if (req.file) {
+      profilepic = req.file.path; // Set profile picture to file path
+    }
+
+    // Update student record
+    const student = await Student.findByIdAndUpdate(
+      studentId,
+      { ...req.body, profilepic }, // Include profile picture in update
+      { new: true }
+    );
+
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
@@ -57,6 +69,7 @@ const updateStudentById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Delete a student record by ID
 const deleteStudentById = async (req, res) => {
@@ -76,9 +89,9 @@ const deleteStudentById = async (req, res) => {
 
 // login
 const studentLogin = async (req, res) => {
-  const { email, password } = req.body;
-
+  
   try {
+    const { email, password } = req.body;
     // Find student by email
     const student = await Student.findOne({ email });
     if (!student) {
@@ -86,7 +99,6 @@ const studentLogin = async (req, res) => {
     }
 
     // Validate password
-    // const isMatch = await bcrypt.compare(password, student.password);
     if (password !== student.password) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

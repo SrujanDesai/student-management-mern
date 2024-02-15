@@ -1,6 +1,7 @@
 const express = require("express");
 const verifyAdminToken = require("../middleware/adminAuth");
 const verifyStudentToken = require("../middleware/studentAuth");
+const upload = require("../middleware/upload");
 const router = express.Router();
 
 const parentController = require("../controller/parentController");
@@ -17,6 +18,7 @@ router.get("/student", verifyAdminToken, studentController.getAllStudents);
 router.get("/student/:id", verifyAdminToken, studentController.getStudentById);
 router.put(
   "/student/edit/:id",
+  upload.single("profilepic"),
   verifyAdminToken,
   studentController.updateStudentById
 );
