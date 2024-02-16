@@ -21,6 +21,7 @@ const StudentProfile = () => {
   const fetchStudentData = async () => {
     try {
       const token = localStorage.getItem("token");
+
       if (!token) {
         throw new Error("Token not found");
       }
@@ -77,6 +78,12 @@ const StudentProfile = () => {
       profilepic: URL.createObjectURL(file), // Display the selected image preview
     }));
   };
+  
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <div className="container mx-auto py-8">
@@ -114,9 +121,9 @@ const StudentProfile = () => {
                 </button>
                 <button
                   className="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded"
-                  onClick={() => navigate("/")}
+                  onClick={handleLogout}
                 >
-                  Back
+                  Log out
                 </button>
               </div>
             )}

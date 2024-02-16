@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { studentLogin } from "../services/service";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ const StudentLogin = () => {
     try {
       const response = await studentLogin(formData);
       toast.success("Login successful");
-
+      
       console.log(formData);
       console.log("Login successful:", response);
 
@@ -32,10 +32,12 @@ const StudentLogin = () => {
       localStorage.setItem("token", response.token);
 
       navigate("/studentprofile");
+      window.location.reload();
     } catch (error) {
       toast.error(`Login failed: ${error.message}`);
     }
   };
+
   return (
     <>
       <section className="bg-gray-50">

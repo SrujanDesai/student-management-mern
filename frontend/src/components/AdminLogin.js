@@ -32,6 +32,7 @@ const AdminLogin = () => {
       // Save token in local storage
       localStorage.setItem("token", response.token);
       navigate("/studentlist");
+      window.location.reload();
     } catch (error) {
       toast.error(`Login failed: ${error.message}`);
     }

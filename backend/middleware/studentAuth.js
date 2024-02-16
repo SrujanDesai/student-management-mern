@@ -31,7 +31,7 @@ const verifyStudentToken = async (req, res, next) => {
     const requestedStudentId = req.params.id;
 
     // Compare requested student ID with ID from token
-    if (decoded.studentId !== requestedStudentId) {
+    if (decoded.studentId !== requestedStudentId && req.student.role !== "admin") {
       console.log(
         `Requested student ID: ${requestedStudentId}, Decoded student ID: ${decoded.studentId}`
       );

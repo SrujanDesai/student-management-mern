@@ -70,10 +70,16 @@ const StudentList = () => {
     setUpdateData(student);
     setShowUpdateForm(true);
   };
+  
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   useEffect(() => {
     fetchStudents();
-  }, []);
+  }, [students]);
 
   return (
     <div className="container mx-auto">
@@ -101,9 +107,9 @@ const StudentList = () => {
           </Link>
           <button
             className="bg-gray-500 hover:bg-gray-600 text-white font-bold px-4 py-2 rounded mb-2 mx-2 md:mb-0 md:mr-2"
-            onClick={() => navigate("/adminlogin")}
+            onClick={handleLogout}
           >
-            Back
+            Log out
           </button>
         </div>
       </div>

@@ -107,7 +107,6 @@ const studentLogin = async (req, res) => {
     const token = jwt.sign(
       { studentId: student._id, role: student.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
     );
 
     res.status(200).json({ token, message: "Student logged in successfully" });
