@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const adminRouter = require("./router/adminRouter");
+const studentRouter = require("./router/studentRouter");
+const parentRouter = require("./router/parentRouter");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,7 +22,9 @@ mongoose
     console.log(err);
   });
 
-app.use("/", require("./router/main"));
+app.use("/admin", adminRouter);
+app.use("/student", studentRouter);
+app.use("/parent", parentRouter);
 
 app.listen(8080, () => {
   console.log("server running at 8080");

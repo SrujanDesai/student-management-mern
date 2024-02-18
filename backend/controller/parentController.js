@@ -1,4 +1,5 @@
 const Parent = require("../models/parent");
+const message = require("../constant/message")
 
 // Create a new parent record
 const createParent = async (req, res) => {
@@ -29,7 +30,7 @@ const getParentById = async (req, res) => {
   try {
     const parent = await Parent.findById(req.params.id);
     if (!parent) {
-      return res.status(404).json({ message: "Parent not found" });
+      return res.status(404).json({ message: message.PARENT_NOT_FOUND });
     }
     res.json({ data: parent });
   } catch (error) {
@@ -44,7 +45,7 @@ const updateParentById = async (req, res) => {
       new: true, // to return modified document rather than the original document.
     });
     if (!parent) {
-      return res.status(404).json({ message: "Parent not found" });
+      return res.status(404).json({ message: message.PARENT_NOT_FOUND });
     }
     res.json({
       message: "Parent updated successfully",
@@ -60,7 +61,7 @@ const deleteParentById = async (req, res) => {
   try {
     const parent = await Parent.findByIdAndDelete(req.params.id);
     if (!parent) {
-      return res.status(404).json({ message: "Parent not found" });
+      return res.status(404).json({ message: message.PARENT_NOT_FOUND });
     }
     res.json({
       message: "Parent deleted successfully",

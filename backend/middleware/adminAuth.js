@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
+const message = require("../constant/message")
 
 const verifyAdminToken = async (req, res, next) => {
   // Get the token from the request header
@@ -8,7 +9,7 @@ const verifyAdminToken = async (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ message: "Access denied. No token provided" });
+      .json({ message: message.ACCESS_DENIED });
   }
 
   try {
@@ -19,7 +20,7 @@ const verifyAdminToken = async (req, res, next) => {
     const admin = await Admin.findById(decoded.adminId);
 
     if (!admin) {
-      return res.status(404).json({ message: "Admin not found" });
+      return res.status(404).json({ message: message.ADMIN_NOT_FOUND });
     }
 
     // Attach the admin object and role to the request object for further use
@@ -28,17 +29,17 @@ const verifyAdminToken = async (req, res, next) => {
       role: admin.role,
     };
 
-    const adminRole = req.admin.role;
+    const adminId = req.admin._id;
 
-    if (adminRole === "admin") {
+    if (adminId == decoded.adminId) {
       next();
     } else {
-      res.status(403).json({ message: "Forbidden" });
+      res.status(403).json({ message: message.NOT_AUTHORIZED });
     }
 
     // next(); // Proceed to the next middleware or route handler
   } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ message: message.INVALID_TOKEN });
   }
 };
 

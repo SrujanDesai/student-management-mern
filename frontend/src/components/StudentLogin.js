@@ -24,7 +24,7 @@ const StudentLogin = () => {
     try {
       const response = await studentLogin(formData);
       toast.success("Login successful");
-      
+
       console.log(formData);
       console.log("Login successful:", response);
 

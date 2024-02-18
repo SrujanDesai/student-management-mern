@@ -16,8 +16,8 @@ const ParentSchema = new Schema({
     required: true,
   },
   relation: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
   },
 });
 

@@ -9,8 +9,7 @@ const AddParent = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    student: "",
-    relation: "",
+    student: ""
   });
 
   const handleChange = (e) => {
@@ -90,24 +89,6 @@ const AddParent = () => {
                 name="student"
                 id="student"
                 value={formData.student}
-                onChange={handleChange}
-                required
-                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="relation"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Relation
-              </label>
-              <input
-                type="text"
-                name="relation"
-                id="relation"
-                value={formData.relation}
                 onChange={handleChange}
                 required
                 className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"

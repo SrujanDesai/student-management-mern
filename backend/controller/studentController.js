@@ -2,18 +2,32 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/student");
+const message = require("../constant/message");
 
 // Create a new student record
 const createStudent = async (req, res) => {
+  const { name, email, password, class: Class, school } = req.body;
+
+  // Hash the password
   try {
-    const student = new Student(req.body);
-    await student.save();
-    res.status(201).json({
-      message: "Student created successfully",
-      data: student,
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new student with the hashed password
+    const newStudent = new Student({
+      name,
+      email,
+      password: hashedPassword,
+      class: Class,
+      school
     });
+
+    // Save the student to the database
+    await newStudent.save();
+
+    res.status(201).json({ message: 'Student created successfully' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error creating student:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -32,7 +46,7 @@ const getStudentById = async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
     if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+      return res.status(404).json({ message: message.STUDENT_NOT_FOUND });
     }
     res.json({ data: student });
   } catch (error) {
@@ -59,7 +73,7 @@ const updateStudentById = async (req, res) => {
     );
 
     if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+      return res.status(404).json({ message: message.STUDENT_NOT_FOUND });
     }
     res.json({
       message: "Student updated successfully",
@@ -76,7 +90,7 @@ const deleteStudentById = async (req, res) => {
   try {
     const student = await Student.findByIdAndDelete(req.params.id);
     if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+      return res.status(404).json({ message: message.STUDENT_NOT_FOUND });
     }
     res.json({
       message: "Student deleted successfully",
@@ -95,21 +109,22 @@ const studentLogin = async (req, res) => {
     // Find student by email
     const student = await Student.findOne({ email });
     if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+      return res.status(404).json({ message: message.STUDENT_NOT_FOUND });
     }
 
     // Validate password
-    if (password !== student.password) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    const isMatch = await bcrypt.compare(password, student.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: message.PASSWORD_VALIDATE });
     }
 
     // Generate JWT token
     const token = jwt.sign(
       { studentId: student._id, role: student.role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     );
 
-    res.status(200).json({ token, message: "Student logged in successfully" });
+    res.status(200).json({ token, message: message.STUDENT_LOGIN });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
