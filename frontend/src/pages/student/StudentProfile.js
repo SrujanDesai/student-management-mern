@@ -11,7 +11,7 @@ const StudentProfile = () => {
   const [studentData, setStudentData] = useState({
     name: "",
     email: "",
-    class: "",
+    std: "",
     school: "",
     profilepic: null, // Changed to null initially
   });
@@ -49,7 +49,7 @@ const StudentProfile = () => {
       formData.append("file", file);
       formData.append("name", studentData.name);
       formData.append("email", studentData.email);
-      formData.append("class", studentData.class);
+      formData.append("class", studentData.std);
       formData.append("school", studentData.school);
 
       await updateStudent(studentData._id, studentData);
@@ -109,7 +109,7 @@ const StudentProfile = () => {
               Name: {studentData.name}
             </h2>
             <p className="text-gray-600 mb-2">Email: {studentData.email}</p>
-            <p className="text-gray-600 mb-2">Class: {studentData.class}</p>
+            <p className="text-gray-600 mb-2">Class: {studentData.std}</p>
             <p className="text-gray-600 mb-4">School: {studentData.school}</p>
             {!isEditing && (
               <div className="flex justify-between w-full">
@@ -178,7 +178,7 @@ const StudentProfile = () => {
                 <input
                   type="text"
                   name="class"
-                  value={studentData.class}
+                  value={studentData.std}
                   onChange={handleChange}
                   className="bg-gray-100 border border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:border-blue-500"
                 />

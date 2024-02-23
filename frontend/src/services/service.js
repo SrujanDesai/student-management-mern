@@ -144,7 +144,10 @@ export const deleteParentById = async (parentId) => {
 // student login and manage own profile functions
 export const studentLogin = async (credentials) => {
   try {
-    const response = await axiosInstance.post(`${baseURL}/student/login`, credentials);
+    const response = await axiosInstance.post(
+      `${baseURL}/student/login`,
+      credentials
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

@@ -10,7 +10,7 @@ const AddStudent = () => {
     name: "",
     email: "",
     password: "",
-    class: "",
+    std: "",
     school: "",
   });
 
@@ -21,6 +21,7 @@ const AddStudent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await createStudent(formData);
       navigate("/studentlist");
@@ -107,9 +108,9 @@ const AddStudent = () => {
               </label>
               <input
                 type="text"
-                name="class"
+                name="std"
                 id="class"
-                value={formData.class}
+                value={formData.std}
                 onChange={handleChange}
                 required
                 className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"

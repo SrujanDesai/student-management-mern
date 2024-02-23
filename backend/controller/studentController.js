@@ -6,7 +6,7 @@ const message = require("../constant/message");
 
 // Create a new student record
 const createStudent = async (req, res) => {
-  const { name, email, password, class: Class, school } = req.body;
+  const { name, email, password, std, school } = req.body;
 
   // Hash the password
   try {
@@ -17,17 +17,19 @@ const createStudent = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      class: Class,
-      school
+      std,
+      school,
     });
 
     // Save the student to the database
     await newStudent.save();
 
-    res.status(201).json({ message: 'Student created successfully' });
+    res
+      .status(201)
+      .send({ message: "Student created successfully", newStudent });
   } catch (error) {
-    console.error('Error creating student:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating student:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -84,7 +86,6 @@ const updateStudentById = async (req, res) => {
   }
 };
 
-
 // Delete a student record by ID
 const deleteStudentById = async (req, res) => {
   try {
@@ -103,7 +104,6 @@ const deleteStudentById = async (req, res) => {
 
 // login
 const studentLogin = async (req, res) => {
-  
   try {
     const { email, password } = req.body;
     // Find student by email

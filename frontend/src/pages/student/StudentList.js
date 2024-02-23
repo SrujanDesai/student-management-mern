@@ -17,7 +17,7 @@ const StudentList = () => {
     _id: "",
     name: "",
     email: "",
-    class: "",
+    std: "",
     school: "",
   });
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -131,7 +131,7 @@ const StudentList = () => {
             />
             <h2 className="text-xl font-semibold mb-2">Name: {student.name}</h2>
             <p className="text-gray-600 mb-2">Email: {student.email}</p>
-            <p className="text-gray-600 mb-2">Class: {student.class}</p>
+            <p className="text-gray-600 mb-2">Class: {student.std}</p>
             <p className="text-gray-600 mb-4">School: {student.school}</p>
             <div className="flex justify-center space-x-4">
               <button
@@ -175,7 +175,7 @@ const StudentList = () => {
             <input
               type="text"
               name="class"
-              value={updateData.class}
+              value={updateData.std}
               onChange={handleInputChange}
               placeholder="Class"
               className="border border-gray-400 p-2 mb-2 w-full"

@@ -10,13 +10,13 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    isEmail: true
+    isEmail: true,
   },
   password: {
     type: String,
     required: true,
   },
-  class: {
+  std: {
     type: String,
     required: true,
   },
@@ -25,8 +25,8 @@ const StudentSchema = new Schema({
     required: true,
   },
   profilepic: {
-    type: String
-  }
+    type: String,
+  },
 });
 
 const Student = new mongoose.model("Student", StudentSchema);

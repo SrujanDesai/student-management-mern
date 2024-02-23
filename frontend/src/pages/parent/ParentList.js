@@ -191,8 +191,6 @@
 
 // export default ParentList;
 
-
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -212,6 +210,7 @@ const ParentList = () => {
     name: "",
     email: "",
     student: "",
+    relation: "",
   });
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
@@ -309,6 +308,7 @@ const ParentList = () => {
             <h2 className="text-xl font-semibold mb-2">Name: {parent.name}</h2>
             <p className="text-gray-600 mb-2">Email: {parent.email}</p>
             <p className="text-gray-600 mb-2">Student: {parent.student}</p>
+            <p className="text-gray-600 mb-2">Relation: {parent.relation}</p>
             <div className="flex justify-center space-x-4">
               <button
                 className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded"
