@@ -60,23 +60,17 @@ const getStudentById = async (req, res) => {
 const updateStudentById = async (req, res) => {
   try {
     const studentId = req.params.id;
-    let profilepic = ""; // Initialize profile picture variable
 
-    // Check if file was uploaded
-    if (req.file) {
-      profilepic = req.file.path; // Set profile picture to file path
-    }
-
-    // Update student record
     const student = await Student.findByIdAndUpdate(
       studentId,
-      { ...req.body, profilepic }, // Include profile picture in update
+      { ...req.body }, 
       { new: true }
     );
 
     if (!student) {
       return res.status(404).json({ message: message.STUDENT_NOT_FOUND });
     }
+
     res.json({
       message: "Student updated successfully",
       data: student,

@@ -6,7 +6,7 @@ import {
   deleteStudentById,
   updateStudentById,
 } from "../../services/service";
-import Default from "../../assets/default.jpeg";
+import Default from "../../assets/student.jpg";
 import toast from "react-hot-toast";
 
 const StudentList = () => {

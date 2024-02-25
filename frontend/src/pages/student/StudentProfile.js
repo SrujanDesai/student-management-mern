@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { getStudent, updateStudent } from "../../services/service";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import DefaultProfilePic from "../../assets/default.jpeg";
+import DefaultProfilePic from "../../assets/student.jpg";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -13,10 +13,8 @@ const StudentProfile = () => {
     email: "",
     std: "",
     school: "",
-    profilepic: null, // Changed to null initially
   });
   const [isEditing, setIsEditing] = useState(false); // State to toggle editing mode
-  const [file, setFile] = useState(null); // State to store the uploaded file
 
   const fetchStudentData = async () => {
     try {
@@ -46,10 +44,9 @@ const StudentProfile = () => {
   const handleSave = async () => {
     try {
       const formData = new FormData();
-      formData.append("file", file);
       formData.append("name", studentData.name);
       formData.append("email", studentData.email);
-      formData.append("class", studentData.std);
+      formData.append("std", studentData.std);
       formData.append("school", studentData.school);
 
       await updateStudent(studentData._id, studentData);
@@ -70,15 +67,6 @@ const StudentProfile = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
-    setStudentData((prevState) => ({
-      ...prevState,
-      profilepic: URL.createObjectURL(file), // Display the selected image preview
-    }));
-  };
-  
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
@@ -91,20 +79,10 @@ const StudentProfile = () => {
         <div className="p-6">
           <div className="flex flex-col items-center">
             <img
-              src={studentData.profilepic || DefaultProfilePic}
+              src={DefaultProfilePic}
               alt="Profile Pic"
               className="w-24 h-24 rounded-full mb-4"
             />
-            {isEditing && (
-              <div className="mb-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="mb-2"
-                />
-              </div>
-            )}
             <h2 className="text-xl font-semibold mb-2">
               Name: {studentData.name}
             </h2>
@@ -177,7 +155,7 @@ const StudentProfile = () => {
                 </label>
                 <input
                   type="text"
-                  name="class"
+                  name="std"
                   value={studentData.std}
                   onChange={handleChange}
                   className="bg-gray-100 border border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:border-blue-500"

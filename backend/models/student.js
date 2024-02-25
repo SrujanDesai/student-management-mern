@@ -24,9 +24,6 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
   },
-  profilepic: {
-    type: String,
-  },
 });
 
 const Student = new mongoose.model("Student", StudentSchema);
